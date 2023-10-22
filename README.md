@@ -19,3 +19,4 @@
 - można również sprawdzić poszczególne strony internetowe odwiedzając "http://app01" lub "http://app02" (aktualnie są identyczne)
 - logowanie do maszyny wirtualnej umożliwia komenda "vagrant ssh nazwa_maszyny"
 ![image](https://github.com/bmajczak/IaC/assets/145698965/b5624843-4fb6-4bf2-b78f-07d50cedeac5)
+- do zatrzymania maszyn służy "vagrant halt" a do usunięcia "vagrant destroy" (można sprecyzować, którą maszyne chcemy zatrzymac lub usunąć)
