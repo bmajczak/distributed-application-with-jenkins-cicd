@@ -3,7 +3,7 @@
 ## Wymgania:
 - vagrant: https://developer.hashicorp.com/vagrant/docs/installation
 - virtualbox: https://www.virtualbox.org
-- 3GB pamięci operacyjnej zostały zarezerwowane dla 4 maszyn (ilość pamięci można zmienić w pliku Vagrantfile, konkretnie w linii zawierającej "vb.memory", która przyjmuje wartość wyrażoną w MB)
+- 3.5GB pamięci operacyjnej zostały zarezerwowane dla 5 maszyn (ilość pamięci można zmienić w pliku Vagrantfile, konkretnie w linii zawierającej "vb.memory", która przyjmuje wartość wyrażoną w MB)
 
 ![image](https://github.com/bmajczak/IaC/assets/145698965/6629a318-02ab-4918-856e-b931729dec33)
 
