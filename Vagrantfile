@@ -38,5 +38,13 @@ Vagrant.configure("2") do |config|
         end
         web01.vm.provision "shell", path: "nginx_setup.sh"
     end
+    config.vm.define "jenkins" do |jenkins|
+        jenkins.vm.box = "eurolinux-vagrant/centos-stream-9"
+        jenkins.vm.hostname = "jenkins"
+        jenkins.vm.network "private_network", ip: "192.168.56.15"
+        jenkins.vm.provider "virtualbox" do |vb|
+            vb.memory = "512"
+        end
+        jenkins.vm.provision "shell", path: "jenkins_setup.sh"
+    end
 end
-#commnet
