@@ -39,3 +39,4 @@ Vagrant.configure("2") do |config|
         web01.vm.provision "shell", path: "nginx_setup.sh"
     end
 end
+#commnet
