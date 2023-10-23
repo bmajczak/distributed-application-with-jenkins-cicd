@@ -1,12 +1,15 @@
 #!/bin/bash
+echo "updating"
 sudo yum update -y
+
+echo "installing apps and services"
 sudo yum install epel-release -y
 sudo yum install git zip unzip -y
 sudo yum install mariadb-server -y
 
 sudo systemctl enable mariadb --now
 
-
+echo "creating database"
 DATABASE_PASS='admin123'
 sudo mysqladmin -u root password "$DATABASE_PASS"
 sudo mysql -u root -p"$DATABASE_PASS" -e "create database users"
