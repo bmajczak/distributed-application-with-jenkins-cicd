@@ -45,6 +45,22 @@ Vagrant.configure("2") do |config|
         jenkins.vm.provider "virtualbox" do |vb|
             vb.memory = "512"
         end
-        jenkins.vm.provision "shell", path: "jenkins_setup.sh"
+        jenkins.vm.provision "file" do |file|
+            file.source = "./jenkins_unlock.sh"
+            file.destination = "jenkins_unlock.sh"
+        end
+        jenkins.vm.provision "file" do |file|
+            file.source = "./jenkins_confirm_url.sh"
+            file.destination = "jenkins_confirm_url.sh"
+        end
+        jenkins.vm.provision "file" do |file|
+            file.source = "./jenkins_plugins.sh"
+            file.destination = "jenkins_plugins.sh"
+        end
+        #jenkins.vm.provision "shell", path: "jenkins_setup.sh"
+        jenkins.vm.provision "shell" do |shell|
+            shell.path = "jenkins_setup.sh"
+        end
+        
     end
 end

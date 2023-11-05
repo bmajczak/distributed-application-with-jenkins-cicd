@@ -16,4 +16,17 @@ sudo yum install fontconfig java-17-openjdk -y
 sudo yum install jenkins -y
 sudo systemctl daemon-reload
 sudo systemctl enable jenkins --now
-wget http://localhost:8080/jnlpJars/jenkins-cli.jar
+sudo wget http://localhost:8080/jnlpJars/jenkins-cli.jar
+
+
+echo "unlocking jenkins"
+sudo chmod +x /home/vagrant/jenkins_unlock.sh
+sudo /home/vagrant/jenkins_unlock.sh
+
+echo "installing recommended plugins"
+sudo chmod +x /home/vagrant/jenkins_plugins.sh
+sudo /home/vagrant/jenkins_plugins.sh
+
+echo "confirming url"
+sudo chmod +x /home/vagrant/jenkins_confirm_url.sh
+sudo /home/vagrant/jenkins_confirm_url.sh

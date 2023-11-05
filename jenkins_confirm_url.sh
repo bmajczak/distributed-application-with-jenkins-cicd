@@ -2,11 +2,11 @@
 
 # The jenkins URL, if you are on an amazon instance, you can put there the
 # public DNS name, in order to be able to access jenkins thorugh that URL
-url=<your_jenkins_url>
+url=http://jenkins:8080
 
-user=user
-password=password
-url_urlEncoded=$(python -c "import urllib;print urllib.quote(raw_input(), safe='')" <<< "$url")
+user=admin_vp
+password=admin_vp
+url_urlEncoded=$(python -c "import urllib.parse;print( urllib.parse.quote('http://jenkins:8080', safe='') )")
 
 cookie_jar="$(mktemp)"
 full_crumb=$(curl -u "$user:$password" --cookie-jar "$cookie_jar" $url/crumbIssuer/api/xml?xpath=concat\(//crumbRequestField,%22:%22,//crumb\))
