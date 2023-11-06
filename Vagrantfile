@@ -42,6 +42,10 @@ Vagrant.configure("2") do |config|
         jenkins.vm.box = "eurolinux-vagrant/centos-stream-9"
         jenkins.vm.hostname = "jenkins"
         jenkins.vm.network "private_network", ip: "192.168.56.15"
+        jenkins.vm.network "public_network", ip: "192.168.0.17"
+        jenkins.vm.network "forwarded_port", guest: 8080, host: 1234
+
+
         jenkins.vm.provider "virtualbox" do |vb|
             vb.memory = "512"
         end
@@ -57,7 +61,7 @@ Vagrant.configure("2") do |config|
             file.source = "./jenkins_plugins.sh"
             file.destination = "jenkins_plugins.sh"
         end
-        #jenkins.vm.provision "shell", path: "jenkins_setup.sh"
+        
         jenkins.vm.provision "shell" do |shell|
             shell.path = "jenkins_setup.sh"
         end
