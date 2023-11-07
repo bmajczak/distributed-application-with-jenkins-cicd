@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "updating"
 sudo yum update -y
-sudo yum upgrade -y
+#sudo yum upgrade -y
 
 echo "installing apps"
 sudo yum install git vim  -y
@@ -30,3 +30,16 @@ sudo /home/vagrant/jenkins_plugins.sh
 echo "confirming url"
 sudo chmod +x /home/vagrant/jenkins_confirm_url.sh
 sudo /home/vagrant/jenkins_confirm_url.sh
+
+#time for jenkins to install plugins
+sleep 150
+
+if sudo java -jar jenkins-cli.jar -s  http://localhost:8080 -auth admin_vp:admin_vp create-job firstJob < config.xml ; then
+    echo "success"
+else
+    echo "command failed"
+    sudo systemctl stop jenkins
+    sudo systemctl start jenkins
+    sudo java -jar jenkins-cli.jar -s  http://localhost:8080 -auth admin_vp:admin_vp create-job firstJob < config.xml
+fi
+sudo java -jar jenkins-cli.jar -s  http://localhost:8080 -auth admin_vp:admin_vp build firstJob

@@ -19,6 +19,7 @@ Vagrant.configure("2") do |config|
             vb.memory = "800"
         end
         app01.vm.provision "shell", path: "app_setup.sh"
+        
     end
     config.vm.define "app02" do |app02|
         app02.vm.box = "eurolinux-vagrant/centos-stream-9"
@@ -47,7 +48,7 @@ Vagrant.configure("2") do |config|
 
 
         jenkins.vm.provider "virtualbox" do |vb|
-            vb.memory = "512"
+            vb.memory = "1024"
         end
         jenkins.vm.provision "file" do |file|
             file.source = "./jenkins_unlock.sh"
@@ -60,6 +61,10 @@ Vagrant.configure("2") do |config|
         jenkins.vm.provision "file" do |file|
             file.source = "./jenkins_plugins.sh"
             file.destination = "jenkins_plugins.sh"
+        end
+        jenkins.vm.provision "file" do |file|
+            file.source = "./config.xml"
+            file.destination = "config.xml"
         end
         
         jenkins.vm.provision "shell" do |shell|
