@@ -17,6 +17,7 @@
 - jeśli maszyny wirtualne zostały uruchomione to pod addresem "http://web01" powinna być widoczna strona internetowa z tabelą wypełnioną danymi z bazy danych oraz przy odświeżaniu powinien zmieniać się serwer http (chwilowo nie do odróżnienia) 
 ![image](https://github.com/bmajczak/IaC/assets/145698965/da42903c-490e-488b-a2b0-07039a38191e)
 - można również sprawdzić poszczególne strony internetowe odwiedzając "http://app01" lub "http://app02" (aktualnie są identyczne)
+- pod addresem "http://jenkins:8080" powinien być dostępny serwis jenkinsa (login i hasło znajduje się w pliku jenkins_unlock.sh)
 - logowanie do maszyny wirtualnej umożliwia komenda "vagrant ssh nazwa_maszyny"
 ![image](https://github.com/bmajczak/IaC/assets/145698965/b5624843-4fb6-4bf2-b78f-07d50cedeac5)
 - do zatrzymania maszyn służy "vagrant halt" a do usunięcia "vagrant destroy" (można sprecyzować, którą maszyne chcemy zatrzymac lub usunąć)
