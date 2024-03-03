@@ -1,10 +1,9 @@
-#!/bin/bash
 echo "updating"
 sudo apt update -y
 sudo apt upgrade -y
 
 echo "installing apps and services"
-sudo apt install vim nginx -y
+sudo apt install nginx -y
 
 
 echo "configuring nginx"

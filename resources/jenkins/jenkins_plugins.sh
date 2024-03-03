@@ -1,8 +1,8 @@
 #! /bin/bash
 url=http://localhost:8080
 
-user=admin_vp
-password=admin_vp
+user=admin
+password=admin
 
 cookie_jar="$(mktemp)"
 full_crumb=$(curl -u "$user:$password" --cookie-jar "$cookie_jar" $url/crumbIssuer/api/xml?xpath=concat\(//crumbRequestField,%22:%22,//crumb\))

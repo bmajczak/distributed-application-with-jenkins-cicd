@@ -4,8 +4,8 @@
 # public DNS name, in order to be able to access jenkins thorugh that URL
 url=http://jenkins:8080
 
-user=admin_vp
-password=admin_vp
+user=admin
+password=admin
 url_urlEncoded=$(python -c "import urllib.parse;print( urllib.parse.quote('http://jenkins:8080', safe='') )")
 
 cookie_jar="$(mktemp)"
