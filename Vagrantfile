@@ -24,6 +24,10 @@ Vagrant.configure("2") do |config|
         app01.vm.provider "virtualbox" do |vb|
             vb.memory = "800"
         end
+        app01.vm.provision "file" do |file|
+            file.source = "resources/app/app01.pub"
+            file.destination = "/home/vagrant/.ssh/app01.pub"
+        end
         app01.vm.provision "shell", path: "resources/app/app_setup.sh"
         
     end
@@ -71,6 +75,10 @@ Vagrant.configure("2") do |config|
         jenkins.vm.provision "file" do |file|
             file.source = "resources/jenkins/config.xml"
             file.destination = "config.xml"
+        end
+        jenkins.vm.provision "file" do |file|
+            file.source = "resources/jenkins/credentials.xml"
+            file.destination = "credentials.xml"
         end
        
         jenkins.vm.provision "shell" do |shell|

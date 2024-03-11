@@ -13,7 +13,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable jenkins --now
 sudo wget http://localhost:8080/jnlpJars/jenkins-cli.jar
 
-sudo yum install git -y
+sudo yum install git maven -y
 
 echo "unlocking jenkins"
 sudo chmod +x /home/vagrant/jenkins_unlock.sh
@@ -27,15 +27,29 @@ echo "confirming url"
 sudo chmod +x /home/vagrant/jenkins_confirm_url.sh
 sudo /home/vagrant/jenkins_confirm_url.sh
 
+USERNAME=admin
+PASSWORD=admin
+
+
+
+
+sudo java -jar jenkins-cli.jar -s http://localhost:8080/ -auth "$USERNAME:$PASSWORD" install-plugin ssh-agent
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth "$USERNAME:$PASSWORD" safe-restart
+
+
+
 #time for jenkins to install plugins
 sleep 150
 
-if sudo java -jar jenkins-cli.jar -s  http://localhost:8080 -auth admin:admin create-job firstJob < config.xml ; then
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth "$USERNAME:$PASSWORD" create-credentials-by-xml system::system::jenkins "(global)" < credentials.xml
+
+
+if sudo java -jar jenkins-cli.jar -s  http://localhost:8080 -auth "$USERNAME:$PASSWORD" create-job firstJob < config.xml ; then
     echo "success"
 else
     echo "command failed"
     sudo systemctl stop jenkins
     sudo systemctl start jenkins
-    sudo java -jar jenkins-cli.jar -s  http://localhost:8080 -auth admin:admin create-job firstJob < config.xml
+    sudo java -jar jenkins-cli.jar -s  http://localhost:8080 -auth "$USERNAME:$PASSWORD" create-job firstJob < config.xml
 fi
-sudo java -jar jenkins-cli.jar -s  http://localhost:8080 -auth admin:admin build firstJob
+sudo java -jar jenkins-cli.jar -s  http://localhost:8080 -auth "$USERNAME:$PASSWORD" build firstJob

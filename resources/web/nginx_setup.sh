@@ -8,15 +8,17 @@ sudo apt install nginx -y
 
 echo "configuring nginx"
 cat  << EOT >> project
-upstream web01{
-    server app01;
-    server app02;
+upstream web01 {
+    server app01:8080;
+    server app02:8080;
 }
+
 server {
     listen 80;
- location / {
-    proxy_pass http://web01;
- }
+
+    location / {
+        proxy_pass http://web01/mywebapp/;
+    }
 }
 EOT
 

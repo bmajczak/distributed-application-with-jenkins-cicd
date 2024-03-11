@@ -1,11 +1,8 @@
-echo "updating"
-sudo yum update -y
-echo "installing apps and services"
-sudo yum install epel-release -y
-sudo yum install git maven -y
-
 TOMURL="https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.75/bin/apache-tomcat-9.0.75.tar.gz"
 dnf -y install java-11-openjdk java-11-openjdk-devel
+dnf install git maven wget -y
+git clone https://github.com/MariaDB/mariadb-connector-j.git
+cd /tmp/
 wget $TOMURL -O tomcatbin.tar.gz
 EXTOUT=`tar xzvf tomcatbin.tar.gz`
 TOMDIR=`echo $EXTOUT | cut -d '/' -f1`
@@ -27,7 +24,7 @@ Group=tomcat
 
 WorkingDirectory=/usr/local/tomcat
 
-#Environment=JRE_HOME=/usr/lib/jvm/jre
+
 Environment=JAVA_HOME=/usr/lib/jvm/jre
 
 Environment=CATALINA_PID=/var/tomcat/%i/run/tomcat.pid
@@ -51,9 +48,11 @@ systemctl start tomcat
 systemctl enable tomcat
 
 systemctl stop tomcat
+sleep 20
 rm -rf /usr/local/tomcat/webapps/ROOT*
 
 WEB_PATH='/tmp/strona'
+mkdir "$WEB_PATH"
 
 echo "downloading web app"
 sudo git clone https://github.com/bmajczak/java-demo-webapp.git $WEB_PATH
@@ -61,5 +60,7 @@ sudo git clone https://github.com/bmajczak/java-demo-webapp.git $WEB_PATH
 cd $WEB_PATH
 cd $WEB_PATH/mywebapp
 sudo mvn clean package
-cp *.war /usr/local/tomcat/webapps/
+cp target/*.war /usr/local/tomcat/webapps/
 systemctl start tomcat
+
+cat /home/vagrant/.ssh/app01.pub >> /home/vagrant/.ssh/authorized_keys
