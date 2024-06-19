@@ -3,11 +3,11 @@ Vagrant.configure("2") do |config|
     config.hostmanager.manage_host = true
 
     config.vm.define "db01" do |db01|
-        db01.vm.box = "eurolinux-vagrant/centos-stream-9"
+        db01.vm.box = "ubuntu/focal64"
         db01.vm.hostname = "db01"
         db01.vm.network "private_network", ip: "192.168.56.11"
         db01.vm.provider "virtualbox" do |vb|
-            vb.memory = "600"
+            vb.memory = "2000"
         end
         
         db01.vm.provision "file" do |file|
@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
 
     end
     config.vm.define "app01" do |app01|
-        app01.vm.box = "eurolinux-vagrant/centos-stream-9"
+        app01.vm.box = "ubuntu/jammy64"
         app01.vm.hostname = "app01"
         app01.vm.network "private_network", ip: "192.168.56.12"
         app01.vm.provider "virtualbox" do |vb|
@@ -27,6 +27,18 @@ Vagrant.configure("2") do |config|
         app01.vm.provision "file" do |file|
             file.source = "resources/app/app01.pub"
             file.destination = "/home/vagrant/.ssh/app01.pub"
+        end
+        app01.vm.provision "file" do |file|
+            file.source = "resources/app/default"
+            file.destination = "/tmp/default"
+        end
+        app01.vm.provision "file" do |file|
+            file.source = "resources/app/webapp.service"
+            file.destination = "/tmp/webapp.service"
+        end
+        app01.vm.provision "file" do |file|
+            file.source = "resources/app/publish/"
+            file.destination = "/tmp/publish"
         end
         app01.vm.provision "shell", path: "resources/app/app_setup.sh"
         
@@ -47,7 +59,12 @@ Vagrant.configure("2") do |config|
         web01.vm.provider "virtualbox" do |vb|
             vb.memory = "800"
         end
+        web01.vm.provision "file" do |file|
+            file.source = "resources/web/server.config"
+            file.destination = "/tmp/default"
+        end
         web01.vm.provision "shell", path: "resources/web/nginx_setup.sh"
+
     end
     config.vm.define "jenkins" do |jenkins|
         jenkins.vm.box = "eurolinux-vagrant/centos-stream-9"

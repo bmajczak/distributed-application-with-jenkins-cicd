@@ -1,0 +1,1 @@
+sudo /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'Sqlserver1!' -N -C -l 30

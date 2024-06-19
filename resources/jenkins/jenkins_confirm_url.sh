@@ -3,6 +3,7 @@
 # The jenkins URL, if you are on an amazon instance, you can put there the
 # public DNS name, in order to be able to access jenkins thorugh that URL
 url=http://jenkins:8080
+#check whether curl can resolve host
 
 user=admin
 password=admin

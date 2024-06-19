@@ -1,24 +1,14 @@
--- Create the database if it does not exist
-CREATE DATABASE IF NOT EXISTS users;
+IF NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = 'webapp')
+BEGIN
+    CREATE DATABASE webapp;
+END;
+GO
 
--- Switch to the users database
-USE users;
+USE webapp;
 
--- Create the user table if it does not exist
-CREATE TABLE IF NOT EXISTS `user` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(255) DEFAULT NULL,
-    `lastName` VARCHAR(255) DEFAULT NULL,
-    PRIMARY KEY (`id`)
-);
+CREATE LOGIN app WITH PASSWORD = 'Aspdotnet2@';
+CREATE USER app FOR LOGIN app;
 
--- Insert some sample data into the user table
-INSERT INTO `user` (`name`, `lastName`) VALUES 
-    ('Jan', 'Kowalski'),
-    ('Adam', 'Nowak');
-
--- Create a new user
-CREATE USER 'app'@'%' IDENTIFIED BY 'app123';
-
--- Grant SELECT privileges on the user table to the new user
-GRANT SELECT ON users.user TO 'app'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE TO app;
+GRANT CREATE TABLE TO app;
+GO
