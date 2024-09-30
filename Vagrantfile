@@ -38,10 +38,6 @@ Vagrant.configure("2") do |config|
             file.source = "resources/app/webapp.service"
             file.destination = "/tmp/webapp.service"
         end
-        app01.vm.provision "file" do |file|
-            file.source = "resources/app/publish/"
-            file.destination = "/tmp/publish"
-        end
         app01.vm.provision "shell", path: "resources/app/app_setup.sh"
         
     end
