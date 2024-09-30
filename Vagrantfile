@@ -1,6 +1,7 @@
 Vagrant.configure("2") do |config|
     config.hostmanager.enabled = true 
     config.hostmanager.manage_host = true
+    config.vm.boot_timeout = 600
 
     config.vm.define "db01" do |db01|
         db01.vm.box = "ubuntu/focal64"
@@ -8,6 +9,7 @@ Vagrant.configure("2") do |config|
         db01.vm.network "private_network", ip: "192.168.56.11"
         db01.vm.provider "virtualbox" do |vb|
             vb.memory = "2000"
+            vb.gui = false
         end
         
         db01.vm.provision "file" do |file|
@@ -43,15 +45,15 @@ Vagrant.configure("2") do |config|
         app01.vm.provision "shell", path: "resources/app/app_setup.sh"
         
     end
-    config.vm.define "app02" do |app02|
-        app02.vm.box = "eurolinux-vagrant/centos-stream-9"
-        app02.vm.hostname = "app02"
-        app02.vm.network "private_network", ip: "192.168.56.13"
-        app02.vm.provider "virtualbox" do |vb|
-            vb.memory = "800"
-        end
-        app02.vm.provision "shell", path: "resources/app/app_setup.sh"
-    end
+    # config.vm.define "app02" do |app02|
+    #     app02.vm.box = "eurolinux-vagrant/centos-stream-9"
+    #     app02.vm.hostname = "app02"
+    #     app02.vm.network "private_network", ip: "192.168.56.13"
+    #     app02.vm.provider "virtualbox" do |vb|
+    #         vb.memory = "800"
+    #     end
+    #     app02.vm.provision "shell", path: "resources/app/app_setup.sh"
+    # end
     config.vm.define "web01" do |web01|
         web01.vm.box = "ubuntu/jammy64"
         web01.vm.hostname = "web01"
@@ -70,37 +72,38 @@ Vagrant.configure("2") do |config|
         jenkins.vm.box = "eurolinux-vagrant/centos-stream-9"
         jenkins.vm.hostname = "jenkins"
         jenkins.vm.network "private_network", ip: "192.168.56.15"
-        #jenkins.vm.network "public_network", ip: "192.168.0.17"
         jenkins.vm.network "forwarded_port", guest: 8080, host: 1234
-
-
         jenkins.vm.provider "virtualbox" do |vb|
             vb.memory = "1024"
         end
+
+
         jenkins.vm.provision "file" do |file|
             file.source = "resources/jenkins/jenkins_unlock.sh"
-            file.destination = "jenkins_unlock.sh"
+            file.destination = "/tmp/jenkins_unlock.sh"
         end
         jenkins.vm.provision "file" do |file|
             file.source = "resources/jenkins/jenkins_confirm_url.sh"
-            file.destination = "jenkins_confirm_url.sh"
+            file.destination = "/tmp/jenkins_confirm_url.sh"
         end
         jenkins.vm.provision "file" do |file|
             file.source = "resources/jenkins/jenkins_plugins.sh"
-            file.destination = "jenkins_plugins.sh"
+            file.destination = "/tmp/jenkins_plugins.sh"
         end
         jenkins.vm.provision "file" do |file|
             file.source = "resources/jenkins/config.xml"
-            file.destination = "config.xml"
+            file.destination = "/tmp/config.xml"
         end
         jenkins.vm.provision "file" do |file|
             file.source = "resources/jenkins/credentials.xml"
-            file.destination = "credentials.xml"
+            file.destination = "/tmp/credentials.xml"
+        end
+        jenkins.vm.provision "file" do |file|
+            file.source = "resources/jenkins/app01"
+            file.destination = "/home/vagrant/.ssh/app01"
         end
        
-        jenkins.vm.provision "shell" do |shell|
-            shell.path = "resources/jenkins/jenkins_setup.sh"
-        end
+        jenkins.vm.provision "shell", path: "resources/jenkins/jenkins_setup.sh"
         
     end
 end
