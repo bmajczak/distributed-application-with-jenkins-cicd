@@ -41,15 +41,28 @@ Vagrant.configure("2") do |config|
         app01.vm.provision "shell", path: "resources/app/app_setup.sh"
         
     end
-    # config.vm.define "app02" do |app02|
-    #     app02.vm.box = "eurolinux-vagrant/centos-stream-9"
-    #     app02.vm.hostname = "app02"
-    #     app02.vm.network "private_network", ip: "192.168.56.13"
-    #     app02.vm.provider "virtualbox" do |vb|
-    #         vb.memory = "800"
-    #     end
-    #     app02.vm.provision "shell", path: "resources/app/app_setup.sh"
-    # end
+    config.vm.define "app02" do |app02|
+        app02.vm.box = "ubuntu/jammy64"
+        app02.vm.hostname = "app02"
+        app02.vm.network "private_network", ip: "192.168.56.13"
+        app02.vm.provider "virtualbox" do |vb|
+            vb.memory = "800"
+        end
+        app02.vm.provision "file" do |file|
+            file.source = "resources/app/app02.pub"
+            file.destination = "/home/vagrant/.ssh/app02.pub"
+        end
+        app02.vm.provision "file" do |file|
+            file.source = "resources/app/default"
+            file.destination = "/tmp/default"
+        end
+        app02.vm.provision "file" do |file|
+            file.source = "resources/app/webapp.service"
+            file.destination = "/tmp/webapp.service"
+        end
+        app02.vm.provision "shell", path: "resources/app/app_setup.sh"
+        
+    end
     config.vm.define "web01" do |web01|
         web01.vm.box = "ubuntu/jammy64"
         web01.vm.hostname = "web01"
@@ -91,12 +104,20 @@ Vagrant.configure("2") do |config|
             file.destination = "/tmp/config.xml"
         end
         jenkins.vm.provision "file" do |file|
-            file.source = "resources/jenkins/credentials.xml"
-            file.destination = "/tmp/credentials.xml"
+            file.source = "resources/jenkins/app01_creds.xml"
+            file.destination = "/tmp/app01_creds.xml"
+        end
+        jenkins.vm.provision "file" do |file|
+            file.source = "resources/jenkins/app02_creds.xml"
+            file.destination = "/tmp/app02_creds.xml"
         end
         jenkins.vm.provision "file" do |file|
             file.source = "resources/jenkins/app01"
             file.destination = "/home/vagrant/.ssh/app01"
+        end
+        jenkins.vm.provision "file" do |file|
+            file.source = "resources/jenkins/app02"
+            file.destination = "/home/vagrant/.ssh/app02"
         end
        
         jenkins.vm.provision "shell", path: "resources/jenkins/jenkins_setup.sh"

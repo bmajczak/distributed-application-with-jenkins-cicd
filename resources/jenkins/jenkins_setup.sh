@@ -21,7 +21,7 @@ sudo yum install aspnetcore-runtime-8.0 -y
 sudo dotnet tool install --global dotnet-ef
 
 ## ssh
-sudo chmod 600 /home/vagrant/.ssh/app01
+sudo chmod 600 /home/vagrant/.ssh/*
 
 dos2unix /tmp/*.sh
 
@@ -51,7 +51,8 @@ java -jar jenkins-cli.jar -s http://localhost:8080/ -auth "$USERNAME:$PASSWORD" 
 #time for jenkins to install plugins
 sleep 150
 
-java -jar jenkins-cli.jar -s http://localhost:8080/ -auth "$USERNAME:$PASSWORD" create-credentials-by-xml system::system::jenkins "(global)" < /tmp/credentials.xml
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth "$USERNAME:$PASSWORD" create-credentials-by-xml system::system::jenkins "(global)" < /tmp/app01_creds.xml
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth "$USERNAME:$PASSWORD" create-credentials-by-xml system::system::jenkins "(global)" < /tmp/app02_creds.xml
 
 
 if sudo java -jar jenkins-cli.jar -s  http://localhost:8080 -auth "$USERNAME:$PASSWORD" create-job firstJob < /tmp/config.xml ; then
