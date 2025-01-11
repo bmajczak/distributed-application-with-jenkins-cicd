@@ -15,7 +15,7 @@ sudo cp /tmp/webapp.service /etc/systemd/system/
 sudo systemctl enable webapp.service --now
 sudo nginx -s reload
 
-## ssh
+# ssh
 if [[ "$HOSTNAME" == "app01" ]]; then
     sudo cat /home/vagrant/.ssh/app01.pub >> /home/vagrant/.ssh/authorized_keys
 else

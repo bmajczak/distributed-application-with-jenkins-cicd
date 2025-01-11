@@ -20,11 +20,12 @@ sudo yum install aspnetcore-runtime-8.0 -y
 
 sudo dotnet tool install --global dotnet-ef
 
-## ssh
+# ssh
 sudo chmod 600 /home/vagrant/.ssh/*
 
 dos2unix /tmp/*.sh
 
+# external scripts
 echo "unlocking jenkins"
 sudo chmod +x /tmp/jenkins_unlock.sh
 sudo /tmp/jenkins_unlock.sh
@@ -48,7 +49,7 @@ java -jar jenkins-cli.jar -s http://localhost:8080/ -auth "$USERNAME:$PASSWORD" 
 
 
 
-#time for jenkins to install plugins
+# time for jenkins to install plugins
 sleep 150
 
 java -jar jenkins-cli.jar -s http://localhost:8080/ -auth "$USERNAME:$PASSWORD" create-credentials-by-xml system::system::jenkins "(global)" < /tmp/app01_creds.xml

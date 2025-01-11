@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 url=http://localhost:8080
 password=$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
 
