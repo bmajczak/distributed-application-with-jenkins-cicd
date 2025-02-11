@@ -1,23 +1,32 @@
-# IaC
+# Distributed Application with Jenkins CI/CD
 
-## Wymgania:
-- vagrant: https://developer.hashicorp.com/vagrant/docs/installation
-- virtualbox: https://www.virtualbox.org
-- 4GB pamięci operacyjnej zostały zarezerwowane dla 5 maszyn (ilość pamięci można zmienić w pliku Vagrantfile, konkretnie w linii zawierającej "vb.memory", która przyjmuje wartość wyrażoną w MB)
+## Project Overview
 
-![image](https://github.com/bmajczak/IaC/assets/145698965/6629a318-02ab-4918-856e-b931729dec33)
+This project sets up a load-balanced infrastructure consisting of two application servers, a database server, and Jenkins, all managed through Vagrant. The system is designed to create a simple, scalable environment where the load balancer distributes traffic across the application servers, and Jenkins automates the deployment process. The application itself is hosted in a separate repository, and the Jenkins pipeline is also stored there.
 
+## Technologies Used
 
-## Utworzenie maszyn oraz weryfikacja:
-- zmiana katalogu na ten, w którym znajduje się Vagrantfile
-- wywołanie komendy "vagrant up"
-  ![image](https://github.com/bmajczak/IaC/assets/145698965/c7f5d9f5-c093-467c-8fc0-550079a56045)
-- opcjonalnie można sprawdzić za pomocą "vagrant global-status" czy wszystkie maszyny są uruchomione
-  ![image](https://github.com/bmajczak/IaC/assets/145698965/60db569e-8ae4-4538-95ed-6ad817392b0a)
-- jeśli maszyny wirtualne zostały uruchomione to pod addresem "http://web01" powinna być widoczna strona internetowa z tabelą wypełnioną danymi z bazy danych oraz przy odświeżaniu powinien zmieniać się serwer http (chwilowo nie do odróżnienia) 
-![image](https://github.com/bmajczak/IaC/assets/145698965/da42903c-490e-488b-a2b0-07039a38191e)
-- można również sprawdzić poszczególne strony internetowe odwiedzając "http://app01" lub "http://app02" (aktualnie są identyczne)
-- pod addresem "http://jenkins:8080" powinien być dostępny serwis jenkinsa (login i hasło znajduje się w pliku jenkins_unlock.sh)
-- logowanie do maszyny wirtualnej umożliwia komenda "vagrant ssh nazwa_maszyny"
-![image](https://github.com/bmajczak/IaC/assets/145698965/b5624843-4fb6-4bf2-b78f-07d50cedeac5)
-- do zatrzymania maszyn służy "vagrant halt" a do usunięcia "vagrant destroy" (można sprecyzować, którą maszyne chcemy zatrzymac lub usunąć)
+- **Vagrant**: To provision and manage virtual machines.
+- **Bash Scripts**: For automation and server setup.
+- **Load Balancer**: Distributes incoming traffic between two application servers.
+- **Application Servers**: Two instances hosting the application.
+- **Database Server**: A single server to handle database operations.
+- **Jenkins**: For continuous integration and deployment.
+
+## Requirements
+
+- Install [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/) on your machine.
+- Install the **hostmanager** plugin for Vagrant to simplify hostname resolution.
+  - You can install the plugin with:
+    ```bash
+    vagrant plugin install vagrant-hostmanager
+    ```
+- Ensure your system has sufficient resources (CPU, RAM, and disk space) to run multiple virtual machines.
+- The application repository must be cloned to the same directory as this repository for the Jenkins pipeline to work correctly.
+
+## Project Structure
+
+- `Vagrantfile`: Configuration file for setting up virtual machines.
+- `resources/`: Contains Bash scripts used for setting up the environment and other resources needed for provisioning. Resources are grouped by server name.
+  - `<name>_setup.sh`: Initializes and configures servers.
+- **Application Repository**: The application code is hosted in a separate repository. The Jenkins pipeline for deploying the application is also stored there.
